@@ -7,5 +7,5 @@ withr::local_libpaths("lib", action="prefix")
 
 test_that("it just works", {
   library(pkgB)
-  expect_true(!identical(sctrl(), list(B1=2, B2=4)))
+  expect_equal(sctrl(), list(B1=2, B2=4))
 })
