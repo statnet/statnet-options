@@ -1,4 +1,8 @@
+library(devtools)
 if(!dir.exists("lib")) dir.create("lib")
+document("pkgA")
 install.packages("pkgA", lib="lib", repos = NULL, type = "source")
+document("pkgB")
 install.packages("pkgB", lib="lib", repos = NULL, type = "source")
+document("pkgC")
 install.packages("pkgC", lib="lib", repos = NULL, type = "source")

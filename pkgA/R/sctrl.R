@@ -71,3 +71,32 @@ update_sctrl <- function(myname, arglist=alist(), callback=NULL){
 
   invisible()
 }
+
+#' @export
+collate_controls <- function(x=NULL, ...){
+  l <- if(is.environment(x)) lapply(grep("control\\.*", ls(pos=x), value=TRUE), mget, x, mode="function", ifnotfound=NULL) else list(x)
+  l <- unlist(c(list(...), l))
+
+  arglist <- lapply(l, formals)
+  argnames <- unlist(lapply(arglist, names))
+  arglist <- do.call(c, arglist)
+  names(arglist) <- argnames
+  arglist <- arglist[names(arglist)!="..."]
+  arglist
+}
+
+#' @export
+UPDATE_MY_SCTRL_EXPR <- quote(
+  update_my_sctrl <- function(){
+    unlockBinding("sctrl", environment(update_my_sctrl))
+    sctrl <<- pkgA::sctrl
+    lockBinding("sctrl", environment(update_my_sctrl))
+  }
+)
+
+#' @export
+COLLATE_ALL_MY_CONTROLS_EXPR <- quote(
+  pkgA::update_sctrl(pkgname,
+                     pkgA::collate_controls(environment(.onLoad)),
+                     update_my_sctrl)
+)

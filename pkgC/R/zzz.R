@@ -1,13 +1,11 @@
 #' @export sctrl
 sctrl <- pkgA::sctrl
 
+#' @export
+control.CF1 <- function(C1=5, C2=6){}
+
 .onLoad <- function(libame, pkgname){
-  pkgA::update_sctrl(pkgname, alist(C1=5, C2=6), update_my_sctrl)
+  eval(pkgA::COLLATE_ALL_MY_CONTROLS_EXPR)
 }
 
-update_my_sctrl <- function(){
-  unlockBinding("sctrl", environment(update_my_sctrl))
-  sctrl <<- pkgA::sctrl
-  lockBinding("sctrl", environment(update_my_sctrl))
-}
-
+eval(pkgA::UPDATE_MY_SCTRL_EXPR)
